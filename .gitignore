@@ -213,7 +213,9 @@ ENV/
 # End of https://www.gitignore.io/api/macos,linux,django,python,pycharm
 
 
-# also exlcude all txt +  log files (too large), but include requirements.txt
+# also exlcude all txt +  log files (too large), but include requirements.txt and all folders containing config.txt
 *.txt
 *.log
 !requirements.txt
+!**/config.txt
+
