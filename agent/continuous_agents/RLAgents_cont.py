@@ -426,7 +426,7 @@ class RLAgent(object):
                     action = self.online_network_assign.combinations[res.argmax().numpy()]
                 case 'branch':
                     # choose max sub-action per action (assign/not assign)
-                    action = res.argmax(dim=1).numpy()  # TODO: check dim
+                    action = res.argmax(dim=1).numpy()
                 case _:
                     raise ValueError(f'Unknown NN type {self.nn_type_assign}')
 

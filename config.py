@@ -1,7 +1,7 @@
 # Description: Configuration file for the environment
 
 # general
-NAME = 'Dueling Branching - no zoning'
+NAME = 'Dueling Combinatorial'
 
 # pygame
 RENDER = False
@@ -40,7 +40,7 @@ STATE_POSITION = 'position'  # 'distance' | 'position'
 STATE_ETD = 'ETD'  # 'STA' | 'ETD'  # STA = stops till available, ETD = estimated time to destination
 
 # assigning network parameters
-NN_TYPE_ASSIGN = 'branch'  # 'duel_comb | 'comb' | 'branch'
+NN_TYPE_ASSIGN = 'duel_comb'  # 'duel_comb | 'comb' | 'branch'
 MAX_ELEVS_RESPONDING = 2  # only relevant for comb and duel_comb
 # next 2 lines only relevant in case of 'branch'
 NN_ASSIGN_AGG = 'sum'  # 'sum' | 'mean' | 'none

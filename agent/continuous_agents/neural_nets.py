@@ -90,16 +90,42 @@ class CombinatorialQ(nn.Module):
         return [self.combinations_list.index(action_) for action_ in actions]
 
 
-class DuelingCombinatorialQ(CombinatorialQ):
+class DuelingCombinatorialQ(nn.Module):
+
+    """
+    Dueling Deep Q Network. Takes as input the state,
+    output layer is all the possible combinations of elevators responding.
+    Very similar to CombinatorialQ, but with separate value and advantage heads.
+    :param env_: environment
+    :param learning_rate: learning rate for the optimizer
+    :param inp_size: input size of the neural network.
+    """
 
     def __init__(self, env_: 'DiscreteEvent', learning_rate, inp_size, n_episodes):
-        super().__init__(env_, learning_rate, inp_size, n_episodes)
+        super().__init__()
 
-        # add separate heads for value and advantage and delete self.out
-        self.value_head = nn.Linear(in_features=self.main_body[-2].out_features, out_features=1)
-        self.adv_head = self.out  # rename for clarity. Out from main_body has 256->out features, same as value head
+        # all combinations of 3, 2 or 1 elevators assigned to call (explicitly remove 0 -> always 1 elevator assigned)
+        self.out_features, self.combinations, self.combinations_list = (
+            self.get_output_size_and_combinations(config.MAX_ELEVS_RESPONDING, env_))
 
-        # reinitialize optimizer and scheduler now that parameters and modules have changed
+        # Current input size: 28  (big state size)
+        if config.NN_SIZE == 'small':
+            self.main_body = nn.Sequential(nn.Linear(in_features=inp_size, out_features=64),
+                                           nn.ReLU(),
+                                           nn.Linear(in_features=64, out_features=256),
+                                           nn.ReLU())
+        elif config.NN_SIZE == 'large':
+            self.main_body = nn.Sequential(nn.Linear(in_features=inp_size, out_features=128),
+                                           nn.ReLU(),
+                                           nn.Linear(in_features=128, out_features=512),
+                                           nn.ReLU(),
+                                           nn.Linear(in_features=512, out_features=256),
+                                           nn.ReLU())
+
+        # add separate heads for value and advantage
+        self.value_head = nn.Linear(in_features=256, out_features=1)
+        self.adv_head = nn.Linear(in_features=256, out_features=self.out_features)
+
         self.optimizer = optim.AdamW(self.parameters(), lr=learning_rate)
         self.scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(self.optimizer, n_episodes / config.LEARN_INTERVAL)
         # self.warmup_scheduler = warmup.LinearWarmup(self.optimizer, warmup_period=n_episodes / 100)
@@ -112,6 +138,42 @@ class DuelingCombinatorialQ(CombinatorialQ):
         adv = self.adv_head(x)
 
         return value + (adv - adv.mean(dim=-1, keepdim=True))
+
+    def init_weights(self):
+        """ initialize the weights of the NN """
+        for m in self.modules():
+            if isinstance(m, nn.Linear):
+                nn.init.kaiming_uniform_(m.weight.data, mode='fan_in', nonlinearity='relu')
+                nn.init.constant_(m.bias.data, 0.1)
+
+    @staticmethod
+    def get_output_size_and_combinations(n_elevators: int, env_: 'DiscreteEvent'):
+        """ Build all possible combinations of elevators responding to a call.
+        :param n_elevators: number of elevators responding to a call
+        :param env_: gym environment
+        :return: number of combinations, all combinations, all combinations as list"""
+
+        # make all combinations of 1 of 6 elevators responding 1
+        comb1 = [np.bincount(xs, minlength=env_.n_elev) for xs in itertools.combinations(range(env_.n_elev), 1)]
+        # make all combinations of 2 of 6 elevators responding 1
+        comb2 = [np.bincount(xs, minlength=env_.n_elev) for xs in itertools.combinations(range(env_.n_elev), 2)]
+        # make all combinations of 3 of 6 elevators responding 1
+        comb3 = [np.bincount(xs, minlength=env_.n_elev) for xs in itertools.combinations(range(env_.n_elev), 3)]
+
+        if n_elevators == 1:
+            combinations = comb1  # 6 combinations
+        elif n_elevators == 2:
+            combinations = comb1 + comb2  # 21 combinations
+        elif n_elevators == 3:
+            combinations = comb1 + comb2 + comb3  # 41 combinations
+        else:
+            raise ValueError('n_elevators must be 1, 2 or 3')
+
+        return len(combinations), combinations, [list(combi) for combi in combinations]
+
+    def action_to_output_ix(self, actions: list):
+        """ used to encode action to corresponding output"""
+        return [self.combinations_list.index(action_) for action_ in actions]
 
 
 class BranchingQ(nn.Module):

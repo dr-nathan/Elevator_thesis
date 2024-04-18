@@ -400,7 +400,7 @@ if __name__ == '__main__':
     logging.basicConfig(filename=Path(__file__).parent / 'log.log', level=logging.INFO, filemode='w',
                         format='%(asctime)s %(levelname)s %(name)s %(message)s')
 
-    agent_file = (Path(__file__).parent.parent / 'comparing/agents_to_compare_cont/2024-04-02_22-18-01')
+    agent_file = (Path(__file__).parent.parent / 'agent/continuous_agents/data/2024-04-06_10-57-38')
 
     # load config file
     with open(Path(agent_file) / 'config.txt', 'r') as f:
