@@ -43,6 +43,7 @@ for filepath in os.listdir(Path(__file__).parent / 'agents_to_compare_cont'):
         configfile = json.load(f)
     # make object
     config.__dict__.update(configfile)
+    config.BUSYNESS_MULTIPLIER = 1
 
     config.RUNS = 20
 
@@ -135,3 +136,7 @@ for data, title, ylabel in zip([rewards, wait_times, consumptions, num_respondin
                                ['reward', 'wait time (s)', 'energy consumption (Arb. units)',
                                 'amount of elevators']):
     plotting(data, title, ylabel)
+
+# print means and stds
+for name, data in rewards.items():
+    print(f'{name} reward: {np.mean(data)} +- {np.std(data)}')

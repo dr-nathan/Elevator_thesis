@@ -353,6 +353,11 @@ class DiscreteEvent(gym.Env):
     def make_groupsize_array():
         """for every hour, determine P for geometric distribution of group sizes"""
 
+        try:
+            busyness_multiplier = config.BUSYNESS_MULTIPLIER
+        except AttributeError:
+            busyness_multiplier = 1
+
         # if mean group size is X, p = 1/X
         group_sizes = np.array([1,  # 00.00
                                 1,  # 1.00
@@ -378,6 +383,8 @@ class DiscreteEvent(gym.Env):
                                 1.2,  # 21.00
                                 1,  # 22.00
                                 1])  # 23.00
+
+        group_sizes *= busyness_multiplier
 
         # array of p-parameter for geometric distribution
         p_array = 1 / group_sizes

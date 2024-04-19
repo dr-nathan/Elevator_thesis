@@ -34,7 +34,7 @@ class Elevator(object):
     acceleration = config.ACCELERATION  # m/s^2
     timedelta = config.TIMEDELTA  # seconds
     capacity = config.CAPACITY
-    movement_penatly = config.MOVEMENT_PENALTY
+    movement_penalty = config.MOVEMENT_PENALTY
     waiting_penalty = config.WAITING_PENALTY
     arrival_reward = config.ARRIVAL_REWARD
     loading_reward = config.LOADING_REWARD
@@ -370,8 +370,8 @@ class Elevator(object):
         else:
 
             # when moving, add movement penalty
-            self.reward += self.movement_penatly
-            episode_data.rewards_moving.append(self.movement_penatly)
+            self.reward += self.movement_penalty
+            episode_data.rewards_moving.append(self.movement_penalty)
 
             ended = self.take_move_step()  # episode_data)
 
