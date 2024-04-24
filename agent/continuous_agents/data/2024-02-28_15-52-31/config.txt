@@ -1,5 +1,5 @@
 {
-    "NAME": "position + ETD",
+    "NAME": "position + ETA",
     "RENDER": false,
     "SET_SEED": false,
     "AGENT": "DQNMulti",

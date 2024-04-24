@@ -34,12 +34,3 @@ plt.ylabel('Elevator')
 plt.xlabel('Hour')
 
 plt.show()
-
-# Richie, we are a concerned that we are running out of time. We understand that you need time to sort out
-# your situation, but we are also in a position where we need to make decisions.
-# We are a bit frustrated that the date is already pushed back from may to june, as we thought we
-# had a deal for may that was confirmed. We are willing to wait until the end of may to give you some extra time,
-# but we are not willing to wait any longer than that. this still gives you 1.5 months notice,
-# and delaying the decision puts us in a really uncomfortable position as well.
-# We would like to have your confirmation on sunday at the latest, so we can confirm with the tenants on monday.
-#

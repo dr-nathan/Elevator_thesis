@@ -1,7 +1,7 @@
 # Description: Configuration file for the environment
 
 # general
-NAME = 'Combinatorial'
+NAME = 'Combinatorial - 2x busy'
 
 # pygame
 RENDER = False
@@ -21,7 +21,7 @@ ARRIVAL_REWARD = 2
 LOADING_REWARD = 2  # 2
 ZERO_ELEV_PENALTY = -100  # when no elev responds to call. only possible in case of Branching assigning agent
 DISCOUNTING_SCHEME = 'fixed'  # 'variable' | 'fixed'
-BUSYNESS_MULTIPLIER = 1.5  # 1 means normal busy-ness, 0.5 means half as busy, etc.
+BUSYNESS_MULTIPLIER = 2  # 1 means normal busy-ness, 0.5 means half as busy, etc.
 
 FILL_WITH_BASELINE = False  # (unused, not implemented)
 
@@ -41,7 +41,7 @@ STATE_POSITION = 'position'  # 'distance' | 'position'
 STATE_ETD = 'ETD'  # 'STA' | 'ETD'  # STA = stops till available, ETD = estimated time to destination
 
 # assigning network parameters
-NN_TYPE_ASSIGN = 'comb'  # 'duel_comb | 'comb' | 'branch'
+NN_TYPE_ASSIGN = 'duel_comb'  # 'duel_comb | 'comb' | 'branch'
 MAX_ELEVS_RESPONDING = 2  # only relevant for comb and duel_comb
 # next 2 lines only relevant in case of 'branch'
 NN_ASSIGN_AGG = 'sum'  # 'sum' | 'mean' | 'none

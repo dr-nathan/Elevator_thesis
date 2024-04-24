@@ -1,5 +1,5 @@
 {
-    "NAME": "Fixed discounting",
+    "NAME": "Combinatorial",
     "RENDER": false,
     "SET_SEED": false,
     "AGENT": "DQNMulti",
