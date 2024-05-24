@@ -53,15 +53,16 @@ def run(BM):
 
         for i in range(1):
 
-            env = DiscreteEvent(n_elev=n_elev, n_floors=n_floors, data='woensdag_donderdag.json')  # run on validation data
-            agent = RLAgent(env=env, nn_type_assign=config.NN_TYPE_ASSIGN, nn_type_zone=config.NN_TYPE_ZONE, training=False)
+            env = DiscreteEvent(n_elev=n_elev, n_floors=n_floors, data='woensdag_donderdag.json')
+            agent = RLAgent(env=env, nn_type_assign=config.NN_TYPE_ASSIGN, nn_type_zone=config.NN_TYPE_ZONE,
+                            training=False)
 
             # load network(s) and mean+std
             agent.load(Path(__file__).parent / 'agents_to_compare_cont' / filepath, load_zone=config.LEARN_ZONING)
 
-            name = f'{config.NAME}' # {BM}x'
+            name = f'{config.NAME}'  # {BM}x'
 
-            for run in tqdm(range(config.RUNS)):
+            for _ in tqdm(range(config.RUNS)):
 
                 state, info = env.reset()
                 terminated = False
@@ -96,11 +97,11 @@ def run(BM):
 
         agent, name = agent1, name1
 
-        name = f'{name}' # {BM}x'
+        name = f'{name}'  # {BM}x'
 
         tqdm.write(f'\n Running {name} agent...')
 
-        for run in tqdm(range(config.RUNS)):
+        for _ in tqdm(range(config.RUNS)):
 
             state, info = env.reset()
             terminated = False
@@ -121,7 +122,7 @@ def plotting(data, title, ylabel):
 
     # custom sort data
     # sort_list = ['ETDAgent 1x', 'Combinatorial 1x', 'ETDAgent 1.5x',
-    #               'Combinatorial 1.5x', 'ETDAgent 2x', 'Combinatorial 2x']
+    #              'Combinatorial 1.5x', 'ETDAgent 2x', 'Combinatorial 2x']
     # sorted_data = {k: data[k] for k in sort_list}
 
     # sort alphabetically
@@ -137,6 +138,7 @@ def plotting(data, title, ylabel):
     plt.title(title)
     # rotate x labels
     plt.xticks(list(range(1, len(sorted_data.keys()) + 1)), list(sorted_data.keys()), rotation=45)
+    plt.savefig(f'{title}.pdf', format='pdf')
     plt.show()
 
 
@@ -155,10 +157,10 @@ rewards, wait_times, consumptions, num_responding = run('1')
 
 sns.set(style='whitegrid')
 for data, title, ylabel in zip([rewards, wait_times, consumptions, num_responding],
-                               ['Total reward on validation environment',
-                                'average passenger wait time on validation environment',
-                                'Total energy consumption on validation environment',
-                                'avg. amount of elevators responding per call'],
+                               ['Total reward',
+                                'Average passenger wait time',
+                                'Total energy consumption',
+                                'Average amount of elevators responding per call'],
                                ['reward', 'wait time (s)', 'energy consumption (Arb. units)',
                                 'amount of elevators']):
     plotting(data, title, ylabel)

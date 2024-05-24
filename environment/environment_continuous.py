@@ -407,17 +407,18 @@ if __name__ == '__main__':
     logging.basicConfig(filename=Path(__file__).parent / 'log.log', level=logging.INFO, filemode='w',
                         format='%(asctime)s %(levelname)s %(name)s %(message)s')
 
-    agent_file = (Path(__file__).parent.parent / 'agent/continuous_agents/data/2024-04-06_10-57-38')
+    agent_file = (Path(__file__).parent.parent / 'agent/continuous_agents/data/2024-04-18_12-32-53')
 
     # load config file
     with open(Path(agent_file) / 'config.txt', 'r') as f:
         configfile = json.load(f)
     config.__dict__.update(configfile)
+    config.NORMALIZE_REWARD = True
 
-    env = DiscreteEvent(n_elev=6, n_floors=17)
+    env = DiscreteEvent(n_elev=6, n_floors=17) #, data='woensdag_donderdag.json')
 
     agent = RLAgent(env=env, nn_type_assign=config.NN_TYPE_ASSIGN, nn_type_zone=config.NN_TYPE_ZONE, training=False)
-    agent.load(Path(__file__).parent / 'agents_to_compare_cont' / agent_file, load_zone=config.LEARN_ZONING)
+    agent.load(agent_file, load_zone=config.LEARN_ZONING)
 
     terminated = False
     step_lengths = []
@@ -458,6 +459,7 @@ if __name__ == '__main__':
     plt.title('Reward X Step length')
     plt.xlabel('Reward')
     plt.ylabel('Step length (s)')
+    plt.savefig('reward_x_step_length.pdf', format='pdf')
     plt.show()
 
     # plot mean group size per hour
@@ -472,6 +474,7 @@ if __name__ == '__main__':
     plt.xlabel('Hour')
     plt.ylabel('Mean group size')
     plt.legend()
+    plt.savefig('mean_group_size_per_hour.pdf', format='pdf')
     plt.show()
 
     # plot mean people per hour
@@ -494,6 +497,7 @@ if __name__ == '__main__':
     plt.xlabel('Hour')
     plt.ylabel('Frequency')
     plt.legend()
+    plt.savefig('directions_per_hour.pdf', format='pdf')
     plt.show()
 
     # analyse reward construction
@@ -510,7 +514,8 @@ if __name__ == '__main__':
     # add value to each slice
     for i, a in enumerate(autotexts):
         a.set_text(f'{round(sums[i], 1)}')
-    plt.title(f'Reward construction: {agent}')
+    plt.title(f'Reward construction: RL Agent')
+    plt.savefig('reward_construction.pdf', format='pdf')
     plt.show()
 
     # make barplot as well
@@ -529,6 +534,8 @@ if __name__ == '__main__':
     plt.bar(range(24), responding_per_hour)
     plt.title('Elevators responding to calls per hour')
     plt.xlabel('Hour')
+    plt.xlim(0, 24)
     plt.ylim(0.7, 1.9)
     plt.ylabel('Elevators responding')
+    plt.savefig('elevs_responding_per_hour.pdf', format='pdf')
     plt.show()

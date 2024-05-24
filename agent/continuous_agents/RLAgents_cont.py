@@ -1099,7 +1099,7 @@ class RLAgent(object):
         plt.show()
 
         # save plots
-        fig.savefig(str(save_path) + '/training_plots.png')
+        fig.savefig(str(save_path) + '/training_plots.pdf', format='pdf')
 
         if self.learn_zoning:
             # separate plot for zoning matrix
@@ -1125,7 +1125,7 @@ class RLAgent(object):
             plt.ylabel('Elevator')
             plt.xlabel('Hour')
 
-            fig2.savefig(str(save_path) + '/zoning_matrix.png')
+            fig2.savefig(str(save_path) + '/zoning_matrix.pdf', format='pdf')
 
 
 if __name__ == '__main__':

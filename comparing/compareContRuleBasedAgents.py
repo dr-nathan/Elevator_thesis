@@ -65,13 +65,14 @@ for agent in agents:
 
 # Plotting
 sns.set(style='whitegrid')
-plt.gcf().subplots_adjust(bottom=0.33, left=0.2)
+plt.gcf().subplots_adjust(bottom=0.33, left=0.16)
 plt.boxplot(all_rewards.values(), labels=all_rewards.keys())
 plt.ylabel('Reward')
 plt.xlabel('Agent')
 plt.title('Comparison of rule-based agents')
 # rotate x-axis labels
 plt.xticks(rotation=45)
+plt.savefig('rulebased_reward.pdf', format='pdf')
 plt.show()
 
 plt.gcf().subplots_adjust(bottom=0.33)
@@ -80,14 +81,16 @@ plt.ylabel('Average wait time')
 plt.xlabel('Agent')
 plt.title('Comparison of rule-based agents')
 plt.xticks(rotation=45)
+plt.savefig('rulebased_waittime.pdf', format='pdf')
 plt.show()
 
-plt.gcf().subplots_adjust(bottom=0.33)
+plt.gcf().subplots_adjust(bottom=0.33, left=0.2)
 plt.boxplot(all_energy_consumption.values(), labels=all_energy_consumption.keys())
 plt.ylabel('Energy consumption')
 plt.xlabel('Agent')
 plt.title('Comparison of rule-based agents')
 plt.xticks(rotation=45)
+plt.savefig('rulebased_energy.pdf', format='pdf')
 plt.show()
 
 # fig, ax = plt.subplots(1, len(agents))
