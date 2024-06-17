@@ -131,6 +131,10 @@ def plotting(data, title, ylabel):
     plt.figure()
     # prevent xlabels from being cut off
     plt.gcf().subplots_adjust(bottom=0.33, left=0.17)
+    # if reward, plot in log scale
+    if ylabel == 'reward':
+        plt.yscale('symlog')
+        ylabel = ylabel + ' (log scale)'
     for i, name in enumerate(sorted_data.keys()):
         plt.boxplot(sorted_data[name], positions=[i + 1], widths=0.6)
     plt.xlabel('Agent')

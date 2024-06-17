@@ -415,7 +415,7 @@ if __name__ == '__main__':
     config.__dict__.update(configfile)
     config.NORMALIZE_REWARD = True
 
-    env = DiscreteEvent(n_elev=6, n_floors=17) #, data='woensdag_donderdag.json')
+    env = DiscreteEvent(n_elev=6, n_floors=17, data='woensdag_donderdag.json')
 
     agent = RLAgent(env=env, nn_type_assign=config.NN_TYPE_ASSIGN, nn_type_zone=config.NN_TYPE_ZONE, training=False)
     agent.load(agent_file, load_zone=config.LEARN_ZONING)
