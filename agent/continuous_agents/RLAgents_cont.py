@@ -1156,11 +1156,13 @@ if __name__ == '__main__':
     # validation data, different dataset
     val_env = DiscreteEvent(n_elev=n_elev, n_floors=n_floors, data='woensdag_donderdag.json')
 
+    training = True
+
     # ! Most params are set in config.py, except the ones that never change and thus are "hard-coded"
     agent = RLAgent(env=env,
                     train_env=train_env,
                     val_env=val_env,
-                    training=True,
+                    training=training,
                     nn_type_assign=config.NN_TYPE_ASSIGN,
                     nn_type_zone=config.NN_TYPE_ZONE,
                     device=torch.device('cpu'),
