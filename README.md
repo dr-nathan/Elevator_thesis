@@ -5,8 +5,8 @@
 
 The Agent map contains scripts for training and running RL agents in the VU elevator environment. Discrete folder
 contains agents trained on the earlier discrete version of the environment, most recent experiments are in the
-continuous folder. In the continuous folder, RLAgents.py is the training script, saving trained agent files and 
-result plots in the Data map. 
+continuous folder. In the continuous folder, RLAgents_cont.py is the training script, saving trained agent files and 
+result plots in the Data map. RLAgents_cont.py listens to parameters set in config.py.
 
 neural_nets.py contains the neural network architectures used in the agents. 
 
@@ -19,7 +19,7 @@ Baseline agents are determined in RuleBasedAgents.py.
 ## Comparing
 
 The trained agents can be moved to comparing/agents_to_compare_cont to compare them against each-other 
-and against the baseline agents. Run comparing/compareCont.py to compare the agents. Run 
+and/or against the baseline agents. Run comparing/compareCont.py to compare the agents to each other and against the ETD baseline. Run 
 comparing/CompareContRuleBasedAgents.py to compare all baseline agents against each-other.
 
 ## Environment
@@ -55,3 +55,5 @@ it to baselines however. But this function was mostly taken over by the comparin
 
 test.sh was used to be able to run experiments on the VU servers, but that turned out to be slower than running
 experiments on my own computer.
+
+VU_zoning.py is used to create the Zoning map of the current algorithm at the VU.
