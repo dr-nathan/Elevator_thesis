@@ -401,8 +401,6 @@ if __name__ == '__main__':
 
     sns.set_theme()
 
-    # agent = ETDAgent(env)
-
     # set up log file
     logging.basicConfig(filename=Path(__file__).parent / 'log.log', level=logging.INFO, filemode='w',
                         format='%(asctime)s %(levelname)s %(name)s %(message)s')
@@ -413,9 +411,9 @@ if __name__ == '__main__':
     with open(Path(agent_file) / 'config.txt', 'r') as f:
         configfile = json.load(f)
     config.__dict__.update(configfile)
-    config.NORMALIZE_REWARD = True
+    # config.RENDER = True
 
-    env = DiscreteEvent(n_elev=6, n_floors=17, data='woensdag_donderdag.json')
+    env = DiscreteEvent(n_elev=6, n_floors=17)
 
     agent = RLAgent(env=env, nn_type_assign=config.NN_TYPE_ASSIGN, nn_type_zone=config.NN_TYPE_ZONE, training=False)
     agent.load(agent_file, load_zone=config.LEARN_ZONING)
@@ -423,7 +421,7 @@ if __name__ == '__main__':
     terminated = False
     step_lengths = []
     rewards = []
-    state, info = env.reset()
+    state, info = env.reset(start_time=datetime.datetime(2023, 10, 30, 8, 55, 0))
     while not terminated:
         action = agent.act(state, env, info)
         state, reward, terminated, info = env.step(action)
